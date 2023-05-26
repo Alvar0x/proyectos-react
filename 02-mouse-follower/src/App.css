@@ -67,3 +67,7 @@
         filter: blur(5px) hue-rotate(360deg);
     }
 }
+
+body.hidden-cursor {
+    cursor: none;
+}
