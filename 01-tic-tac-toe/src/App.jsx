@@ -61,7 +61,7 @@ function App() {
 	const dialogClasses = `dialog-background${gameState !== GAME_STATES.PLAYING ? ' show' : ''}`;
 	
 	return (
-		<React.Fragment>
+		<>
 			<main className='board'>
 				<button onClick={resetGame} className='beauty-button little-button'>
 					<span className='beauty-button-text'>⟳</span>
@@ -78,7 +78,7 @@ function App() {
 				</section>
 			</main>
 			<Dialog key='dialogGameState' classes={dialogClasses} dialogText={finalMessage} buttonText='Play again' onButtonClick={resetGame} />
-		</React.Fragment>
+		</>
 	);
 }
 
