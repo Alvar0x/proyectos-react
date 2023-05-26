@@ -195,6 +195,7 @@
   background: linear-gradient(45deg, #0ce39a, #69007f, #fc0987);
   filter: blur(10px);
   opacity: 0;
+  z-index: -1;
   transition: 0.1s linear;
 }
 
