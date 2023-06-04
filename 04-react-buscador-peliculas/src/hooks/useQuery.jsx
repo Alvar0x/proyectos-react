@@ -7,11 +7,11 @@ export function useQuery() {
 
     useEffect(() => {
         if (isFirstRender.current) {
-            isFirstRender.current = query === '';
+            isFirstRender.current = query.trim() === '';
             return;
         }
 
-        if (query === '') {
+        if (query.trim() === '') {
             setError('Debes escribir algo para encontrar una película');
             return;
         }
@@ -19,5 +19,5 @@ export function useQuery() {
         setError(null);
     }, [query]);
 
-    return { query, setQuery, error };
+    return { query, setQuery, error, setError };
 }

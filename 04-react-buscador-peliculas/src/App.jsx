@@ -1,4 +1,5 @@
 import './App.css'
+import { LoadingIcon } from './components/LoadingIcon'
 import { useMenu } from './hooks/useMenu'
 import { useMovies } from './hooks/useMovies'
 import { useQuery } from './hooks/useQuery'
@@ -8,21 +9,20 @@ export function App() {
     const { menuVisibility, setMenuVisibility } = useMenu();
     const { inputVisibility, setInputVisibility } = useInput();
 
-    const { query, setQuery, error } = useQuery();
-    const { movies, getMovies } = useMovies({ query });
+    const { query, setQuery, error, setError } = useQuery();
+    const { movies, getMovies, loading } = useMovies({ query, setError });
 
-    const handleClick = () => {
+    const handleMenuClick = () => {
         setMenuVisibility(!menuVisibility);
-        console.log(menuVisibility)
     }
 
-    const handleSubmit = (event) => {
+    const handleFormSubmit = (event) => {
         event.preventDefault();
 
         getMovies();
     }
 
-    const handleChange = (event) => {
+    const handleInputChange = (event) => {
         setQuery(event.target.value);
     }
 
@@ -31,20 +31,25 @@ export function App() {
             <header>
                 <div className='left'>
                     <section className='menu-button-container'>
-                        <button onClick={handleClick} className='menu-button'><ion-icon name="menu-outline"></ion-icon></button>
+                        <button onClick={handleMenuClick} className='menu-button'><ion-icon name="menu-outline"></ion-icon></button>
                     </section>
                     <section className='logo'>
                         <img className='logo-img' src='./src/img/logo.png' alt='Website Logo Image' />
                         <h1 className='logo-text'>Moviendo</h1>
                     </section>
                 </div>
-                <form className='searcher' onSubmit={handleSubmit}>
-                    <button onClick={() => { setInputVisibility(!inputVisibility) }} type='submit' className='search-button'><ion-icon name="search-outline"></ion-icon></button>
-                    <input onChange={handleChange} value={query} type='text' name='searchFilm' className='search-film' placeholder='Busca alguna película...' autoComplete='off' />
+                <form className='searcher' onSubmit={handleFormSubmit}>
+                    <section className='menu-button-container'>
+                        <button type='button' onClick={handleMenuClick} className='menu-button'><ion-icon name="menu-outline"></ion-icon></button>
+                    </section>
+                    <div>
+                        <button onClick={() => { setInputVisibility(!inputVisibility) }} type='submit' className='search-button'><ion-icon name="search-outline"></ion-icon></button>
+                        <input onChange={handleInputChange} value={query} type='text' name='searchFilm' className='search-film' placeholder='Busca alguna película...' autoComplete='off' />
+                    </div>
                 </form>
             </header>
             <aside className='side-menu'>
-                <button onClick={handleClick} className='close-button'><ion-icon name="close-outline"></ion-icon></button>
+                <button onClick={handleMenuClick} className='close-button'><ion-icon name="close-outline"></ion-icon></button>
                 <h2 className='side-menu-title'>Menú</h2>
                 <nav className='menu'>
                     <ul className='menu-list'>
@@ -56,11 +61,10 @@ export function App() {
             </aside>
             <main>
                 <h2 className='main-text'>Resultados de la búsqueda:</h2>
-                <section className='films-section'>
+                <section className={`films-section${loading || error ? ' no-films' : ''} `}>
                     {
-                        error ? <p className='film-error-text'>{error}</p> : movies
+                        loading ? <LoadingIcon delay={0.2} /> : (error ? <p className='film-error-text'>{error}</p> : movies)
                     }
-                    {/* <MovieCard key='peli' title='Spiderman 3' image='/src/img/spiderman3.jpg' year='2007' duration='139 min' /> */}
                 </section>
             </main>
             <footer>

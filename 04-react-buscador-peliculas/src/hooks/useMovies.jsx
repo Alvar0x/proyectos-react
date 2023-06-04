@@ -1,31 +1,21 @@
 import { useState } from 'react';
-import { API_ENDPOINT } from '../utils/constants';
-import { MovieCard } from '../components/MovieCard';
+import { searchMovies } from '../services/movies';
 
-export function useMovies({ query }) {
-    const [responseMovies, setResponseMovies] = useState([]);
+export function useMovies({ query, setError }) {
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    const getMovies = () => {
-        if (query !== '') {
-            fetch(API_ENDPOINT + `&s=${query}`)
-                .then(response => response.json())
-                .then(jsonResponse => {
-                    let aux = [];
-                    const movieCards = Array.from(jsonResponse.Search).map(
-                        movie => (
-                            <MovieCard
-                                key={movie.imdbID}
-                                title={movie.Title}
-                                image={movie.Poster != 'N/A' ? movie.Poster : '/src/img/defaultMovie.webp'}
-                                year={movie.Year}
-                            />
-                        )
-                    );
-                    setResponseMovies(movieCards);
-                })
+    const getMovies = async () => {
+        try {
+            setLoading(true);
+            const newMovies = await searchMovies({ query });
+            setMovies(newMovies);
+        } catch (e) {
+            setError('No se ha encontrado');
+        } finally {
+            setLoading(false);
         }
-        else setResponseMovies(<p className='film-error-text'>No se encontraron películas</p>);
-    }
+    };
 
-    return { movies: responseMovies, getMovies };
+    return { movies, getMovies, loading };
 }
