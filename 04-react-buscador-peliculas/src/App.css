@@ -6,28 +6,11 @@
     --border-radius: 10px;
 }
 
-::-webkit-scrollbar {
-    width: 10px;
-    background: transparent;
-}
-
-::-webkit-scrollbar-track {
-    background: linear-gradient(0deg, #909, #d70); 
-}
-
-::-webkit-scrollbar-thumb {
-    background: #fff; 
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #eee; 
-}
-
 #app {
     position: relative;
     padding: 20px;
     width: 100%;
+    min-width: 350px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -62,6 +45,81 @@
     }
 }
 
+.custom-select {
+    position: relative;
+    height: 50px;
+    border: none;
+    background: transparent;
+    border: 2px solid #fff;
+    border-left: none;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    padding: 0 20px;
+    font-size: 1.3rem;
+    transition: 0.3s ease-in-out width;
+    z-index: 10;
+}
+
+.custom-select:focus {
+    outline: none;
+}
+
+.custom-select-text {
+    width: 100%;
+    text-align: center;
+    transition: 0.15s linear;
+}
+
+.custom-select-button {
+    position: relative;
+    color: #fff;
+    font-size: 1.3rem;
+    padding: 12.5px 12.5px;
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.2s linear;
+    z-index: 10;
+}
+
+.custom-select-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.custom-select-dropdown {
+    position: absolute;
+    top: 46px;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background: #fff;
+    border: 2px solid #fff;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+    transition: 0.2s linear;
+}
+
+.custom-select-dropdown article {
+    width: 100%;
+    text-align: center;
+    color: #a0a;
+    letter-spacing: 1px;
+    transition: 0.1s linear;
+}
+
+.custom-select-dropdown article:hover {
+    background: #eee;
+}
+
 #app>header {
     position: relative;
     width: 100%;
@@ -70,30 +128,20 @@
     border-radius: var(--border-radius);
     padding: var(--container-padding);
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#app>header .left {
-    position: relative;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    justify-content: flex-start;
     align-items: center;
     column-gap: 20px;
 }
 
-#app>header .left .menu-button-container {
+#app>header .menu-button-container {
     position: relative;
-    width: 15%;
+    width: auto;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#app>header .left .menu-button-container .menu-button,
-#app>header .searcher .menu-button-container .menu-button {
+#app>header .menu-button-container .menu-button,
+#app>main .main-header .searcher .menu-button-container .menu-button {
     position: relative;
     font-size: 50px;
     padding: 15px 15px;
@@ -108,32 +156,31 @@
     color: #fff;
 }
 
-#app>header .left .menu-button-container .menu-button:hover,
-#app>header .searcher .menu-button-container .menu-button:hover {
+#app>header .menu-button-container .menu-button:hover,
+#app>main .main-header .searcher .menu-button-container .menu-button:hover {
     box-shadow: inset 0 0 5px #222;
     background: rgba(0, 0, 0, 0.1);
 }
 
-#app>header .searcher .menu-button-container .menu-button {
+#app>main .main-header .searcher .menu-button-container .menu-button {
     display: none;
 }
 
-#app>header .left .logo {
+#app>header .logo {
     position: relative;
-    width: 85%;
-    height: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     column-gap: 20px;
+    text-decoration: none;
 }
 
-#app>header .left .logo .logo-img {
+#app>header .logo .logo-img {
     position: relative;
     width: 100px;
 }
 
-#app>header .left .logo .logo-text {
+#app>header .logo .logo-text {
     display: inline;
     font-size: 4rem;
     text-align: center;
@@ -143,62 +190,6 @@
     letter-spacing: 10px;
     text-shadow: 0 0 1px #fff,
                  0 0 2px #fff;
-}
-
-#app>header .searcher {
-    position: relative;
-    width: 40%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-#app>header .searcher div {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-#app>header .searcher .search-film {
-    position: relative;
-    width: 100%;
-    height: 50px;
-    border: none;
-    background: transparent;
-    border: 2px solid #fff;
-    border-left: none;
-    color: #fff;
-    border-radius: 0 5px 5px 0;
-    padding: 0 20px;
-    font-size: 1.3rem;
-    transition: 0.3s ease width;
-}
-
-#app>header .searcher .search-film:focus {
-    outline: none;
-}
-
-#app>header .searcher .search-film::placeholder {
-    color: white;
-}
-
-#app>header .searcher .search-button {
-    background: transparent;
-    border: 2px solid #fff;
-    color: #fff;
-    border-radius: 5px 0 0 5px;
-    padding: 12.5px 15px;
-    font-size: 1.3rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.1s linear;
-}
-
-#app>header .searcher .search-button:hover {
-    background: rgba(255, 255, 255, 0.3);
 }
 
 .side-menu {
@@ -255,6 +246,7 @@
 
 .side-menu .menu {
     width: 100%;
+    height: 40%;
 }
 
 .side-menu .menu .menu-list {
@@ -262,8 +254,8 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    gap: 50px;
     width: 100%;
+    height: 100%;
 }
 
 .side-menu .menu .menu-list li {
@@ -304,9 +296,91 @@
     row-gap: 20px;
 }
 
-#app>main .main-text {
+#app>main .main-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#app>main .main-header .main-text {
     color: #fff;
+    font-weight: 500;
     letter-spacing: 2px;
+}
+
+#app>main .main-header .searcher {
+    position: relative;
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#app>main .main-header .searcher .buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 10px;
+}
+
+#app>main .main-header .searcher .buttons .sort-selection-container {
+    position: relative;
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    transition: 0.3s ease-in-out width;
+}
+
+#app>main .main-header .searcher .buttons div {
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    transition: 0.3s linear;
+}
+
+#app>main .main-header .searcher .buttons div .search-film {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border: none;
+    background: transparent;
+    border: 2px solid #fff;
+    border-left: none;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    padding: 0 20px;
+    font-size: 1.3rem;
+    transition: 0.3s linear;
+    z-index: 10;
+}
+
+#app>main .main-header .searcher .buttons div .search-film:focus {
+    outline: none;
+}
+
+#app>main .main-header .searcher .buttons div .search-film::placeholder {
+    color: #fff;
+}
+
+#app>main .main-header .searcher .buttons div .search-button {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    border-radius: 5px 0 0 5px;
+    padding: 12.5px 12.5px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.1s linear;
+    z-index: 10;
+}
+
+#app>main .main-header .searcher .buttons div .search-button:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
 #app>main .films-section {
@@ -332,7 +406,6 @@
 #app>main .films-section .flex-fixer {
     position: relative;
     width: 20%;
-    min-width: 300px;
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -443,54 +516,58 @@
     letter-spacing: 1px;
     text-align: center;
 }
-/* hacer scrollbar custom */
+
 @media screen and (max-width: 640px) {
     #app>header {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 15px;
     }
 
-    #app>header .left, #app>header .searcher {
-        width: 100%;
-    }
-
-    #app>header .left .menu-button-container {
+    #app>header .menu-button-container {
         display: none;
     }
 
-    #app>header .left .logo {
+    #app>header .logo {
         width: 100%;
         justify-content: center;
         column-gap: 40px;
     }
 
-    #app>header .left .logo .logo-img {
+    #app>header .logo .logo-img {
         width: 70px;
     }
     
-    #app>header .left .logo .logo-text {
+    #app>header .logo .logo-text {
         font-size: 3.5rem;
         letter-spacing: normal;
     }
 
-    #app>header .searcher {
+    #app>main .main-header {
+        flex-direction: column-reverse;
+        row-gap: 15px;
+    }
+
+    #app>main .main-header .main-text {
+        font-weight: 400;
+        font-size: 1.3rem;
+    }
+
+    #app>main .main-header .searcher {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         width: 100%;
         column-gap: 20px;
     }
 
-    #app>header .searcher>div {
+    #app>main .main-header .searcher>div {
         width: 100%;
         display: flex;
         justify-content: flex-end;
     }
 
-    #app>header .searcher .menu-button-container .menu-button {
+    #app>main .main-header .searcher .menu-button-container .menu-button {
         display: flex;
         padding: 10px;
         font-size: 30px;
@@ -511,14 +588,68 @@
     #app>main .films-section .flex-fixer .film-link:hover {
         transform: translateY(0);
     }
+
+    @media screen and (max-width: 460px) {
+        #app>header .logo {
+            column-gap: 20px;
+        }
+    
+        #app>header .logo .logo-img {
+            width: 50px;
+        }
+        
+        #app>header .logo .logo-text {
+            font-size: 2.5rem;
+        }
+        
+        #app>main .main-header .searcher .search-film {
+            height: 40px;
+            padding: 0 10px;
+            font-size: 0.9rem;
+        }
+        
+        #app>main .main-header .searcher .search-button {
+            padding: 10px 10px;
+            font-size: 1rem;
+        }
+    
+        #app>main .main-header .main-text {
+            font-weight: 400;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+    
+        #app>footer span {
+            font-size: 0.9rem;
+        }
+    }
 }
 
-/* Hay que hacer algo con el header cuando la pantalla está a menos de 1200px de ancho */
+@media screen and (min-width: 641px) and (max-width: 1007px) {
+    #app>header .logo {
+        width: 100%;
+        justify-content: center;
+        column-gap: 30px;
+    }
 
-@media screen and (min-width: 641px) and (max-width: 1007) {
-    
-}
+    #app>header .logo .logo-img {
+        width: 80px;
+    }
 
-@media screen and (min-width: 1008px) {
+    #app>header .logo .logo-text {
+        font-size: 3.2rem;
+    }
     
+    #app>main .films-section .flex-fixer {
+        width: 50%;
+    }
+
+    .side-menu {
+        width: 50%;
+    }
+
+    #app>main .main-header .main-text {
+        font-weight: 400;
+        font-size: 1.3rem;
+    }
 }

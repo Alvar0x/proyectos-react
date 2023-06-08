@@ -5,6 +5,7 @@ export function useMenu() {
 
     useEffect(() => {
         const sideMenu = document.querySelector('.side-menu');
+        const screenSize = window.innerWidth < 641 ? 's' : (window.innerWidth < 1008 ? 'm' : 'l');
 
         if (menuVisibility) {
             sideMenu.style.display = 'flex';
@@ -13,7 +14,7 @@ export function useMenu() {
                 sideMenu.style.opacity = '0.9';
             }, 1);
         } else {
-            sideMenu.style.left = window.innerWidth < 641 ? '-100%' : '-25%';
+            sideMenu.style.left = screenSize === 's' ? '-100%' : (screenSize === 'm' ? '-53%' : '-25%');
             sideMenu.style.opacity = '0';
             setTimeout(() => {
                 sideMenu.style.display = 'none';

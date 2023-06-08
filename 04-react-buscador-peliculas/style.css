@@ -3,32 +3,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Puddles&display=swap');
 
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-  user-select: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    user-select: none;
 }
 
 html {
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  background: linear-gradient(20deg, #207, #909, #d70);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  display: flex;
-  justify-content: center;
+    background: linear-gradient(20deg, #207, #909, #d70);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
 
-  -webkit-animation-delay: 0.1s;
-  -webkit-animation-name: fontfix;
-  -webkit-animation-duration: 0.1s;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-timing-function: linear;
+    animation-delay: 0.1s;
+    animation-name: fontfix;
+    animation-duration: 0.1s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
 }
 
-@-webkit-keyframes fontfix {
+::-webkit-scrollbar {
+    width: 10px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: linear-gradient(0deg, #909, #d70); 
+}
+
+::-webkit-scrollbar-thumb {
+    background: #fff; 
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #eee; 
+}
+
+@keyframes fontfix {
   from { opacity: 1; }
   to   { opacity: 1; }
 }

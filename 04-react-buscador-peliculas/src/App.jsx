@@ -3,15 +3,34 @@ import { LoadingIcon } from './components/LoadingIcon'
 import { useMenu } from './hooks/useMenu'
 import { useMovies } from './hooks/useMovies'
 import { useQuery } from './hooks/useQuery'
-import { useInput } from './hooks/useInput'
+import { useCallback, useState } from 'react'
+import { useTransition } from './hooks/useTransition'
+import { CustomSelect } from './components/CustomSelect'
+import debounce from 'just-debounce-it'
 
 export function App() {
+    // Variables
+    const sortOptions = [
+        { value: '0', name: 'Por defecto' },
+        { value: '1', name: 'Título' },
+        { value: '2', name: 'Año' },
+        { value: '3', name: 'Duración' }
+    ];
+
+    // State Hooks
+    const [selectVisibility, setSelectVisibility] = useState(false);
+    const [searchVisibility, setSearchVisibility] = useState(false);
+    const [error, setError] = useState(null);
+    const [sort, setSort] = useState(0);
+
+    // Custom Hooks
     const { menuVisibility, setMenuVisibility } = useMenu();
-    const { inputVisibility, setInputVisibility } = useInput();
+    const { query, setQuery } = useQuery({ setError });
+    const { movies, getMovies, loading } = useMovies({ query, sort, setError });
+    useTransition({ visibility: selectVisibility, elementsOf: 'select' });
+    useTransition({ visibility: searchVisibility, elementsOf: 'search' });
 
-    const { query, setQuery, error, setError } = useQuery();
-    const { movies, getMovies, loading } = useMovies({ query, setError });
-
+    // Handlers
     const handleMenuClick = () => {
         setMenuVisibility(!menuVisibility);
     }
@@ -19,34 +38,32 @@ export function App() {
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
-        getMovies();
+        getMovies({ query });
     }
 
     const handleInputChange = (event) => {
-        setQuery(event.target.value);
+        const newQuery = event.target.value;
+        setQuery(newQuery);
+        debouncedGetMovies(newQuery);
     }
+
+    // Debounce
+    const debouncedGetMovies = useCallback(
+        debounce((query) => {
+            getMovies({ query });
+        }, 500), [getMovies]
+    );
 
     return (
         <>
             <header>
-                <div className='left'>
-                    <section className='menu-button-container'>
-                        <button onClick={handleMenuClick} className='menu-button'><ion-icon name="menu-outline"></ion-icon></button>
-                    </section>
-                    <section className='logo'>
-                        <img className='logo-img' src='./src/img/logo.png' alt='Website Logo Image' />
-                        <h1 className='logo-text'>Moviendo</h1>
-                    </section>
-                </div>
-                <form className='searcher' onSubmit={handleFormSubmit}>
-                    <section className='menu-button-container'>
-                        <button type='button' onClick={handleMenuClick} className='menu-button'><ion-icon name="menu-outline"></ion-icon></button>
-                    </section>
-                    <div>
-                        <button onClick={() => { setInputVisibility(!inputVisibility) }} type='submit' className='search-button'><ion-icon name="search-outline"></ion-icon></button>
-                        <input onChange={handleInputChange} value={query} type='text' name='searchFilm' className='search-film' placeholder='Busca alguna película...' autoComplete='off' />
-                    </div>
-                </form>
+                <section className='menu-button-container'>
+                    <button onClick={handleMenuClick} className='menu-button'><ion-icon name="menu-outline"></ion-icon></button>
+                </section>
+                <a href='/' className='logo'>
+                    <img className='logo-img' src='/src/img/logo.png' alt='Website Logo Image' />
+                    <h1 className='logo-text'>Moviendo</h1>
+                </a>
             </header>
             <aside className='side-menu'>
                 <button onClick={handleMenuClick} className='close-button'><ion-icon name="close-outline"></ion-icon></button>
@@ -60,7 +77,24 @@ export function App() {
                 </nav>
             </aside>
             <main>
-                <h2 className='main-text'>Resultados de la búsqueda:</h2>
+                <header className='main-header'>
+                    <h2 className='main-text'>Resultados de la búsqueda:</h2>
+                    <form className='searcher' onSubmit={handleFormSubmit}>
+                        <section className='menu-button-container'>
+                            <button type='button' onClick={handleMenuClick} className='menu-button'><ion-icon name="menu-outline"></ion-icon></button>
+                        </section>
+                        <div className="buttons">
+                            <section className='sort-selection-container'>
+                                <button type='button' onClick={() => { setSelectVisibility(!selectVisibility) }} className='custom-select-button'><ion-icon name="funnel-outline"></ion-icon></button>
+                                <CustomSelect key='1' setsort={setSort} options={sortOptions} />
+                            </section>
+                            <div>
+                                <button onClick={() => { setSearchVisibility(!searchVisibility) }} type='button' className='search-button'><ion-icon name="search-outline"></ion-icon></button>
+                                <input onChange={handleInputChange} value={query} type='text' name='searchFilm' className='search-film' placeholder='Busca alguna película...' autoComplete='off' />
+                            </div>
+                        </div>
+                    </form>
+                </header>
                 <section className={`films-section${loading || error ? ' no-films' : ''} `}>
                     {
                         loading ? <LoadingIcon delay={0.2} /> : (error ? <p className='film-error-text'>{error}</p> : movies)

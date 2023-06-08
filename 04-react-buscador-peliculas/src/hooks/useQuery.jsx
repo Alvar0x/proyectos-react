@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
-export function useQuery() {
+export function useQuery({ setError }) {
     const [query, setQuery] = useState('');
-    const [error, setError] = useState(null);
     const isFirstRender = useRef(true);
 
     useEffect(() => {
@@ -19,5 +18,5 @@ export function useQuery() {
         setError(null);
     }, [query]);
 
-    return { query, setQuery, error, setError };
+    return { query, setQuery };
 }
